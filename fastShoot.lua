@@ -6,9 +6,9 @@
 local realShootKey = "pause"
 
 --基准射击间隔
-local baseShootIntervalTime = 22
+local baseShootIntervalTime = 3
 --基准射击随机间隔表
-local baseShootRandomIntervalTimes = {3,4,5,6}
+local baseShootRandomIntervalTimes = {20,13,11,22}
 --基准射击随机间隔
 local baseShootRandomIntervalTime = baseShootRandomIntervalTimes[table.maxn(baseShootRandomIntervalTimes)]
 --改变基准射击随机间隔键
@@ -62,8 +62,10 @@ if(event == "MOUSE_BUTTON_PRESSED") then
 
       if(arg == startKey) then
 	        isStart = true
+			return
 	  elseif arg == finishKey then
              isStart = false
+			return
        end
 
 
@@ -80,12 +82,14 @@ if(event == "MOUSE_BUTTON_PRESSED") then
 	         		OutputLogMessage("realShootIntervalTime = %d", realShootIntervalTime)
                	until not IsMouseButtonPressed(shootKey)
                end
-		else 
+		else
+            if( arg == shootKey)then
 		   PressKey(realShootKey)
             repeat
             Sleep(30)
             until not IsMouseButtonPressed(shootKey)
 		    ReleaseKey(realShootKey)
+			end
           end
 	 
 end
