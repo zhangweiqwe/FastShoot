@@ -6,7 +6,7 @@
 local realShootKey = "pause"
 
 --基准射击间隔
-local baseShootIntervalTime = 22
+local baseShootIntervalTime = 32
 --基准射击随机间隔表
 local baseShootRandomIntervalTimes = {2,3,-3,-4}
 --基准射击随机间隔
