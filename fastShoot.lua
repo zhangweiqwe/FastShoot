@@ -6,9 +6,9 @@
 local realShootKey = "pause"
 
 --基准射击间隔
-local baseShootIntervalTime = 3
+local baseShootIntervalTime = 22
 --基准射击随机间隔表
-local baseShootRandomIntervalTimes = {20,13,11,22}
+local baseShootRandomIntervalTimes = {3,4,5,6}
 --基准射击随机间隔
 local baseShootRandomIntervalTime = baseShootRandomIntervalTimes[table.maxn(baseShootRandomIntervalTimes)]
 --改变基准射击随机间隔键
@@ -18,12 +18,12 @@ local changeBaseShootRandomIntervalTimeKey = 4
 --射击按键,鼠标左键
 local shootKey = 1
 
---开始按键
-local startKey = 5
---结束按键
-local finishKey = 6
+--状态按键
+local stateSwitchKey = 5
 --开始结束标志
-local isStart = false
+local state = false
+--scrolllock 按键
+local switchKey = "scrolllock"
 
 
 function getShootRandomIntervalTime()
@@ -32,17 +32,12 @@ end
 
 
 function changeShootRandomIntervalTime()
-
 randomIndex = math.ceil(math.random()*table.maxn(baseShootRandomIntervalTimes))
-
 while(baseShootRandomIntervalTimes[randomIndex]==baseShootRandomIntervalTime) do
 randomIndex = math.ceil(math.random()*table.maxn(baseShootRandomIntervalTimes))
 end
 baseShootRandomIntervalTime = baseShootRandomIntervalTimes[randomIndex]
-
-
 OutputLogMessage("baseShootRandomIntervalTime = %d\n",baseShootRandomIntervalTime)
-
 end
 
 
@@ -60,11 +55,8 @@ function OnEvent(event, arg)
 
 if(event == "MOUSE_BUTTON_PRESSED") then
 
-      if(arg == startKey) then
-	        isStart = true
-			return
-	  elseif arg == finishKey then
-             isStart = false
+      if(arg == stateSwitchKey) then
+	        state = not state
 			return
        end
 
@@ -73,7 +65,7 @@ if(event == "MOUSE_BUTTON_PRESSED") then
 	        changeShootRandomIntervalTime()
 		end
 
-         if(isStart) then
+         if(state) then
                if( arg == shootKey) then
                	repeat
                	PressAndReleaseKey(realShootKey)
@@ -82,14 +74,12 @@ if(event == "MOUSE_BUTTON_PRESSED") then
 	         		OutputLogMessage("realShootIntervalTime = %d", realShootIntervalTime)
                	until not IsMouseButtonPressed(shootKey)
                end
-		else
-            if( arg == shootKey)then
+		else 
 		   PressKey(realShootKey)
             repeat
             Sleep(30)
             until not IsMouseButtonPressed(shootKey)
 		    ReleaseKey(realShootKey)
-			end
           end
 	 
 end
