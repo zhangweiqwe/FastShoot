@@ -8,7 +8,7 @@ local realShootKey = "pause"
 --基准射击间隔
 local baseShootIntervalTime = 22
 --基准射击随机间隔表
-local baseShootRandomIntervalTimes = {3,4,5,6}
+local baseShootRandomIntervalTimes = {2,3,-3,-4}
 --基准射击随机间隔
 local baseShootRandomIntervalTime = baseShootRandomIntervalTimes[table.maxn(baseShootRandomIntervalTimes)]
 --改变基准射击随机间隔键
