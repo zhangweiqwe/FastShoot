@@ -14,6 +14,7 @@ local baseShootRandomIntervalTime = baseShootRandomIntervalTimes[table.maxn(base
 --改变基准射击随机间隔键
 local changeBaseShootRandomIntervalTimeKey = 4
 
+
 --射击按键,鼠标左键
 local shootKey = 1
 
@@ -47,19 +48,14 @@ function OnEvent(event, arg)
      elseif event == "PROFILE_DEACTIVATED" then
      	ReleaseKey(realShootKey)
      	ReleaseMouseButton(shootKey)
-     end
- 
-
-if(event == "MOUSE_BUTTON_PRESSED") then
-
-      if(arg == stateSwitchKey) then
-	        state = not state
-			return
-       end
-
-
+     elseif(event == "MOUSE_BUTTON_PRESSED") then
+     	if(arg == stateSwitchKey) then
+	     	state = not state
+	     	return
+          end
 		if(arg == changeBaseShootRandomIntervalTimeKey) then
-	        changeShootRandomIntervalTime()
+	     	changeShootRandomIntervalTime()
+			return
 		end
 
          if(state) then
@@ -72,14 +68,15 @@ if(event == "MOUSE_BUTTON_PRESSED") then
                	until not IsMouseButtonPressed(shootKey)
                end
 		else 
-		   PressKey(realShootKey)
-            repeat
-            Sleep(30)
-            until not IsMouseButtonPressed(shootKey)
-		    ReleaseKey(realShootKey)
+			PressKey(realShootKey)
+         		repeat
+			--OutputLogMessage("shoot = %s","shoot" )
+         	     Sleep(30)
+         		until not IsMouseButtonPressed(shootKey)
+			ReleaseKey(realShootKey)
           end
 	 
-end
+           end
 
 
 
