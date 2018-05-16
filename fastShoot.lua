@@ -54,7 +54,7 @@ function OnEvent(event, arg)
 	     	return
           end
 		if(arg == finishKey) then
-	     	state = f
+	     	state = false
 	     	return
           end
 
