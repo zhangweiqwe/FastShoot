@@ -18,8 +18,8 @@ local changeBaseShootRandomIntervalTimeKey = 4
 --射击按键,鼠标左键
 local shootKey = 1
 
---状态按键
-local stateSwitchKey = 5
+local startKey = 5
+local finishKey = 6
 --开始结束标志
 local state = false
 
@@ -49,10 +49,15 @@ function OnEvent(event, arg)
      	ReleaseKey(realShootKey)
      	ReleaseMouseButton(shootKey)
      elseif(event == "MOUSE_BUTTON_PRESSED") then
-     	if(arg == stateSwitchKey) then
-	     	state = not state
+     	if(arg == startKey) then
+	     	state = true
 	     	return
           end
+		if(arg == finishKey) then
+	     	state = f
+	     	return
+          end
+
 		if(arg == changeBaseShootRandomIntervalTimeKey) then
 	     	changeShootRandomIntervalTime()
 			return
@@ -67,7 +72,7 @@ function OnEvent(event, arg)
 	         		OutputLogMessage("realShootIntervalTime = %d", realShootIntervalTime)
                	until not IsMouseButtonPressed(shootKey)
                end
-		else 
+		elseif( arg == shootKey ) then
 			PressKey(realShootKey)
          		repeat
 			--OutputLogMessage("shoot = %s","shoot" )
