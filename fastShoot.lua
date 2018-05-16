@@ -14,7 +14,6 @@ local baseShootRandomIntervalTime = baseShootRandomIntervalTimes[table.maxn(base
 --改变基准射击随机间隔键
 local changeBaseShootRandomIntervalTimeKey = 4
 
-
 --射击按键,鼠标左键
 local shootKey = 1
 
@@ -22,8 +21,6 @@ local shootKey = 1
 local stateSwitchKey = 5
 --开始结束标志
 local state = false
---scrolllock 按键
-local switchKey = "scrolllock"
 
 
 function getShootRandomIntervalTime()
