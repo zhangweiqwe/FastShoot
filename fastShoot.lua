@@ -2,8 +2,7 @@
 
 --提示 须在游戏中修改射击默认按键
 
---游戏中的射击按键
-local realShootKey = "pause"
+
 
 --基准射击间隔
 local baseShootIntervalTime = 42
@@ -15,9 +14,10 @@ local baseShootRandomIntervalTime = baseShootRandomIntervalTimes[table.maxn(base
 local changeBaseShootRandomIntervalTimeKey = 4
 
 
+--游戏中配置的射击按键
+local realShootKey = "pause"
 --射击按键,鼠标左键
 local shootKey = 1
-
 local startKey = 5
 local finishKey = 6
 --开始结束标志
@@ -66,10 +66,10 @@ function OnEvent(event, arg)
 		elseif(arg == changeBaseShootRandomIntervalTimeKey) then
 	     	changeShootRandomIntervalTime()
 			OutputLogMessage("baseShootRandomIntervalTime = %d\n",baseShootRandomIntervalTime)
-		elseif(arg == startKey)then
-			state = true
 		elseif(arg == finishKey) then
 	     	state = false
+		elseif(arg == startKey)then
+			state = true
 		end	
 		
          
