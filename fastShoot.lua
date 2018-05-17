@@ -6,7 +6,7 @@
 local realShootKey = "pause"
 
 --基准射击间隔
-local baseShootIntervalTime = 32
+local baseShootIntervalTime = 42
 --基准射击随机间隔表
 local baseShootRandomIntervalTimes = {2,3,-3,-4}
 --基准射击随机间隔
@@ -35,7 +35,6 @@ while(baseShootRandomIntervalTimes[randomIndex]==baseShootRandomIntervalTime) do
 randomIndex = math.ceil(math.random()*table.maxn(baseShootRandomIntervalTimes))
 end
 baseShootRandomIntervalTime = baseShootRandomIntervalTimes[randomIndex]
-OutputLogMessage("baseShootRandomIntervalTime = %d\n",baseShootRandomIntervalTime)
 end
 
 
@@ -49,39 +48,33 @@ function OnEvent(event, arg)
      	ReleaseKey(realShootKey)
      	ReleaseMouseButton(shootKey)
      elseif(event == "MOUSE_BUTTON_PRESSED") then
-     	if(arg == startKey) then
-	     	state = true
-	     	return
-          end
-		if(arg == finishKey) then
-	     	state = false
-	     	return
-          end
-
-		if(arg == changeBaseShootRandomIntervalTimeKey) then
-	     	changeShootRandomIntervalTime()
-			return
-		end
-
-         if(state) then
-               if( arg == shootKey) then
+     	if( arg == shootKey) then
+	     	if(state) then
                	repeat
                	PressAndReleaseKey(realShootKey)
                	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
                	Sleep(realShootIntervalTime)
 	         		OutputLogMessage("realShootIntervalTime = %d", realShootIntervalTime)
                	until not IsMouseButtonPressed(shootKey)
-               end
-		elseif( arg == shootKey ) then
-			PressKey(realShootKey)
-         		repeat
-			--OutputLogMessage("shoot = %s","shoot" )
-         	     Sleep(30)
-         		until not IsMouseButtonPressed(shootKey)
-			ReleaseKey(realShootKey)
-          end
+			else
+				PressKey(realShootKey)
+         			repeat
+         	     	Sleep(30)
+         			until not IsMouseButtonPressed(shootKey)
+				ReleaseKey(realShootKey)
+          	end
+		elseif(arg == changeBaseShootRandomIntervalTimeKey) then
+	     	changeShootRandomIntervalTime()
+			OutputLogMessage("baseShootRandomIntervalTime = %d\n",baseShootRandomIntervalTime)
+		elseif(arg == startKey)then
+			state = true
+		elseif(arg == finishKey) then
+	     	state = false
+		end	
+		
+         
 	 
-           end
+        end
 
 
 
