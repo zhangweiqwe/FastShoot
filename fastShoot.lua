@@ -5,24 +5,28 @@
 
 
 --基准射击间隔
-local baseShootIntervalTime = 42
+local baseShootIntervalTime = 70
 --基准射击随机间隔表
 local baseShootRandomIntervalTimes = {2,3,-3,-4}
 --基准射击随机间隔
 local baseShootRandomIntervalTime = baseShootRandomIntervalTimes[table.maxn(baseShootRandomIntervalTimes)]
---改变基准射击随机间隔键
-local changeBaseShootRandomIntervalTimeKey = 4
 
 
 --游戏中配置的射击按键
 local realShootKey = "pause"
 --射击按键,鼠标左键
 local shootKey = 1
-local startKey = 5
+local fastShootKey = 5
+local fastShootAndControlKey = 4
 local finishKey = 6
---开始结束标志
-local state = false
+--标志
+local state = "finish" -- finishKey fastShootKey fastShootAndControlKey
 
+
+local index = 0
+local baseNumber = 30
+local angleMax = 90
+local countMax = math.floor(40/3)
 
 function getShootRandomIntervalTime()
 return math.ceil(math.random()*baseShootRandomIntervalTime)
@@ -46,16 +50,42 @@ function OnEvent(event, arg)
      	EnablePrimaryMouseButtonEvents(true)
      elseif event == "PROFILE_DEACTIVATED" then
      	ReleaseKey(realShootKey)
-     	ReleaseMouseButton(shootKey)
      elseif(event == "MOUSE_BUTTON_PRESSED") then
+     	ReleaseMouseButton(shootKey)
      	if( arg == shootKey) then
-	     	if(state) then
+	     	if(state == "fastShootKey") then
                	repeat
+               	PressAndReleaseKey(realShootKey)
+               	Sleep(realShootIntervalTime)
+               	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
+	         		OutputLogMessage("realShootIntervalTime = %d", realShootIntervalTime)
+               	until not IsMouseButtonPressed(shootKey)
+			elseif(state == "fastShootAndControlKey") then
+
+
+               	repeat
+
+				index = index + 1
+				
+
+				x = angleMax/countMax*index * math.pi/180
+				y1 = math.sin(x)
+				y0 = math.floor(y1*baseNumber)
+				OutputLogMessage("y1 = %f",y0)
                	PressAndReleaseKey(realShootKey)
                	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
                	Sleep(realShootIntervalTime)
-	         		OutputLogMessage("realShootIntervalTime = %d", realShootIntervalTime)
+				MoveMouseRelative(0, y0)
+				
+				if(index == countMax) then
+					--index = countMax-1
+					return
+				end
+
+				
+				
                	until not IsMouseButtonPressed(shootKey)
+				index = 0
 			else
 				PressKey(realShootKey)
          			repeat
@@ -63,18 +93,16 @@ function OnEvent(event, arg)
          			until not IsMouseButtonPressed(shootKey)
 				ReleaseKey(realShootKey)
           	end
-		elseif(arg == changeBaseShootRandomIntervalTimeKey) then
-	     	changeShootRandomIntervalTime()
-			OutputLogMessage("baseShootRandomIntervalTime = %d\n",baseShootRandomIntervalTime)
 		elseif(arg == finishKey) then
-	     	state = false
-		elseif(arg == startKey)then
-			state = true
+			state = "finishKey"
+		elseif(arg == fastShootKey) then
+	     	state = "fastShootKey"
+		elseif(arg == fastShootAndControlKey)then
+			state = "fastShootAndControlKey"
 		end	
-		
-         
-	 
-        end
+
+	elseif(event == "MOUSE_BUTTON_RELEASED") then
+     end
 
 
 
