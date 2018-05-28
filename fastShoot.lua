@@ -71,7 +71,7 @@ function OnEvent(event, arg)
 				x = angleMax/countMax*index * math.pi/180
 				y1 = math.sin(x)
 				y0 = math.floor(y1*baseNumber)
-				OutputLogMessage("y1 = %f",y0)
+				OutputLogMessage("y1 = %f\n",y0)
                	PressAndReleaseKey(realShootKey)
                	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
                	Sleep(realShootIntervalTime)
@@ -79,6 +79,7 @@ function OnEvent(event, arg)
 				
 				if(index == countMax) then
 					--index = countMax-1
+					index = 0
 					return
 				end
 
