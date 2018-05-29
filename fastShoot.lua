@@ -5,7 +5,7 @@
 
 
 --基准射击间隔
-local baseShootIntervalTime = 70
+local baseShootIntervalTime = 30
 --基准射击随机间隔表
 local baseShootRandomIntervalTimes = {2,3,-3,-4}
 --基准射击随机间隔
@@ -22,11 +22,16 @@ local finishKey = 6
 --标志
 local state = "finish" -- finishKey fastShootKey fastShootAndControlKey
 
+local lastShootIndex = 0
+local shootTime = 0
+
 
 local index = 0
-local baseNumber = 30
+local baseNumber = 28
 local angleMax = 90
-local countMax = math.floor(40/3)
+local countMax = math.ceil(40/3)
+local piNumber = math.pi/180
+local angleNumber = angleMax/countMax
 
 function getShootRandomIntervalTime()
 return math.ceil(math.random()*baseShootRandomIntervalTime)
@@ -65,28 +70,44 @@ function OnEvent(event, arg)
 
                	repeat
 
-				index = index + 1
+
+
 				
 
-				x = angleMax/countMax*index * math.pi/180
-				y1 = math.sin(x)
-				y0 = math.floor(y1*baseNumber)
-				OutputLogMessage("y1 = %f\n",y0)
+
                	PressAndReleaseKey(realShootKey)
                	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
                	Sleep(realShootIntervalTime)
-				MoveMouseRelative(0, y0)
 				
-				if(index == countMax) then
-					--index = countMax-1
-					index = 0
-					return
+
+
+
+				shootTime = shootTime + realShootIntervalTime
+				index = math.ceil(shootTime/200)
+				if(lastShootIndex~=index)then
+					if(lastShootIndex==countMax)then
+					else
+						lastShootIndex = index
+					end
 				end
+
+					x = angleNumber*index * piNumber
+					y1 = math.sin(x)
+					y0 = math.floor(y1*baseNumber)
+					OutputLogMessage("y1 = %f\n",y0)
+
+					MoveMouseRelative(0, y0)
+				
+				
+				
+				
 
 				
 				
                	until not IsMouseButtonPressed(shootKey)
 				index = 0
+				shootTime = 0
+				y0 = 0
 			else
 				PressKey(realShootKey)
          			repeat
