@@ -27,7 +27,7 @@ local shootTime = 0
 
 
 local index = 0
-local baseNumber = 28
+local baseNumber = 22
 local angleMax = 90
 local countMax = math.ceil(40/3)
 local piNumber = math.pi/180
@@ -83,9 +83,9 @@ function OnEvent(event, arg)
 
 
 				shootTime = shootTime + realShootIntervalTime
-				index = math.ceil(shootTime/200)
+				index = math.ceil(shootTime/38)
 				if(lastShootIndex~=index)then
-					if(lastShootIndex==countMax)then
+					if(lastShootIndex==countMax-12)then
 					else
 						lastShootIndex = index
 					end
