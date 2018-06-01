@@ -22,16 +22,14 @@ local finishKey = 6
 --标志
 local state = "finish" -- finishKey fastShootKey fastShootAndControlKey
 
-local lastShootIndex = 0
-local shootTime = 0
 
-
-local index = 0
+local index = 1
 local baseNumber = 12
 local angleMax = 90
-local countMax = math.ceil(40/3)
-local piNumber = math.pi/180
-local angleNumber = angleMax/countMax
+local countMax = 90
+local baseAngle = math.pi/180
+
+local a = 1.0
 
 function getShootRandomIntervalTime()
 return math.ceil(math.random()*baseShootRandomIntervalTime)
@@ -45,6 +43,9 @@ randomIndex = math.ceil(math.random()*table.maxn(baseShootRandomIntervalTimes))
 end
 baseShootRandomIntervalTime = baseShootRandomIntervalTimes[randomIndex]
 end
+
+
+
 
 
 
@@ -68,44 +69,35 @@ function OnEvent(event, arg)
 			elseif(state == "fastShootAndControlKey") then
 
 
+
+
+
                	repeat
-
-
-
+					
 				
 
+					if(0<=index and index<=28)then
+						a = a+0.6
+						index=math.ceil(index*a)
+						OutputLogMessage("index = %d",index)
+					elseif(28<index and index<38)then
+						index=index+1
+					else
+						index=index+1
+					end
 
+				x = angleMax/countMax*baseAngle*index
+				y1 = math.sin(x)
+				y0 = math.floor(y1*baseNumber)
+				--OutputLogMessage("y1 = %f  y0 = %f\n",y1,y0)
                	PressAndReleaseKey(realShootKey)
                	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
                	Sleep(realShootIntervalTime)
-				
-
-
-
-				shootTime = shootTime + realShootIntervalTime
-				index = math.ceil(shootTime/78)
-					if(lastShootIndex>countMax)then
-					else
-						lastShootIndex = index
-					end
-
-					x = angleNumber*lastShootIndex * piNumber
-					y1 = math.sin(x)
-					y0 = math.floor(y1*baseNumber)
-					OutputLogMessage("y1 = %f\n",y0)
-
-					MoveMouseRelative(0, y0)
-				
-				
-				
-				
-
-				
+				MoveMouseRelative(0, y0)
 				
                	until not IsMouseButtonPressed(shootKey)
-				index = 0
-				shootTime = 0
-				y0 = 0
+				index = 1
+				a = 1.0
 			else
 				PressKey(realShootKey)
          			repeat
