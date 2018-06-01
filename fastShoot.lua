@@ -22,11 +22,15 @@ local finishKey = 6
 --标志
 local state = "finish" -- finishKey fastShootKey fastShootAndControlKey
 
-local index = 0
+
+local indexInit = 18
+local index = indexInit
+local indexB = 0
 local baseNumber = 16
 local angleMax = 90
 local countMax = 48
 local baseAngle = math.pi/180
+local pressedTime = 0
 
 
 function getShootRandomIntervalTime()
@@ -74,20 +78,23 @@ function OnEvent(event, arg)
 
 				PressAndReleaseKey(realShootKey)
                	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
+				pressedTime = realShootIntervalTime + pressedTime
                	Sleep(realShootIntervalTime)
 
 
 				
-				indexB = 0
-				if(index<countMax) then
-					index = index + 6
-					if(index > countMax)then
+				if(pressedTime>80)then
+					pressedTime = 0
+					if(index<countMax) then
+						index = index + 5
+						if(index > countMax)then
 						index = countMax
-					end
-					indexB = index
-					--OutputLogMessage("index = %d ",index)
-				else
-					indexB = index - 8
+						end
+						indexB = index
+						--OutputLogMessage("index = %d ",index)
+						else
+							indexB = index - 8
+						end
 				end
 				OutputLogMessage("indexB = %d ",indexB)
 
@@ -105,7 +112,8 @@ function OnEvent(event, arg)
 				MoveMouseRelative(0, y0)
 				
                	until not IsMouseButtonPressed(shootKey)
-				index = 0
+				pressedTime = 0
+				index = indexInit
 			else
 				PressKey(realShootKey)
          			repeat
