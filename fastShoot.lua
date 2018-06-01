@@ -86,7 +86,7 @@ function OnEvent(event, arg)
 
 
 				
-				if(pressedTime>10)then
+				if(pressedTime>0)then
 					pressedTime = 0
 					if(index<countMax) then
 						index = index + 5
@@ -95,9 +95,9 @@ function OnEvent(event, arg)
 						end
 						indexB = index
 						--OutputLogMessage("index = %d ",index)
-						else
-							indexB = index - 8
-						end
+					else
+						indexB = index-8
+					end
 				end
 				OutputLogMessage("indexB = %d ",indexB)
 
