@@ -23,7 +23,7 @@ local finishKey = 6
 local state = "finish" -- finishKey fastShootKey fastShootAndControlKey
 
 local index = 0
-local baseNumber = 11
+local baseNumber = 16
 local angleMax = 90
 local countMax = 48
 local baseAngle = math.pi/180
@@ -70,23 +70,36 @@ function OnEvent(event, arg)
 
 
                	repeat
-				
-				
-				if(index<countMax) then
-					index = index + 8
-					--OutputLogMessage("index = %d ",index)
-				end
-					
-
-				x = angleMax/countMax*baseAngle*index
-				y1 = math.cos(x)
-				y0 = baseNumber - math.floor(y1*baseNumber)
-				--OutputLogMessage("y1 = %f  y0 = %f\n",y1,y0)
 
 
-               	PressAndReleaseKey(realShootKey)
+				PressAndReleaseKey(realShootKey)
                	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
                	Sleep(realShootIntervalTime)
+
+
+				
+				indexB = 0
+				if(index<countMax) then
+					index = index + 6
+					if(index > countMax)then
+						index = countMax
+					end
+					indexB = index
+					--OutputLogMessage("index = %d ",index)
+				else
+					indexB = index - 8
+				end
+				OutputLogMessage("indexB = %d ",indexB)
+
+					
+
+				x = angleMax/countMax*baseAngle*indexB
+				y1 = math.cos(x)
+				y0 = baseNumber - math.floor(y1*baseNumber)
+				OutputLogMessage("y1 = %f  y0 = %f\n",y1,y0)
+
+
+               	
 
 
 				MoveMouseRelative(0, y0)
