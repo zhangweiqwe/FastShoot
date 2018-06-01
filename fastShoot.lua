@@ -86,7 +86,7 @@ function OnEvent(event, arg)
 
 
 				
-				if(pressedTime>80)then
+				if(pressedTime>10)then
 					pressedTime = 0
 					if(index<countMax) then
 						index = index + 5
@@ -105,7 +105,7 @@ function OnEvent(event, arg)
 
 				x = angleMax/countMax*baseAngle*indexB
 				y1 = math.cos(x)
-				y0 = baseNumber - math.floor(y1*baseNumber)
+				y0 = baseNumber - math.ceil(y1*baseNumber)
 				OutputLogMessage("y1 = %f  y0 = %f\n",y1,y0)
 
 
@@ -131,8 +131,8 @@ function OnEvent(event, arg)
 		elseif(arg == fastShootAndControlKey)then
 			state = "fastShootAndControlKey"
 		elseif(arg == changeShootRandomIntervalTimeKey)then
-			changeShootRandomIntervalTime()
-			OutputLogMessage("baseShootRandomIntervalTime = %d", baseShootRandomIntervalTime)
+			--changeShootRandomIntervalTime()
+			--OutputLogMessage("baseShootRandomIntervalTime = %d", baseShootRandomIntervalTime)
 		end	
 
 	elseif(event == "MOUSE_BUTTON_RELEASED") then
