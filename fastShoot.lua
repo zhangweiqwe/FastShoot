@@ -22,14 +22,13 @@ local finishKey = 6
 --标志
 local state = "finish" -- finishKey fastShootKey fastShootAndControlKey
 
-
-local index = 1
-local baseNumber = 12
+local indexInit = 0
+local index = indexInit
+local baseNumber = 11
 local angleMax = 90
-local countMax = 90
+local countMax = 20
 local baseAngle = math.pi/180
 
-local a = 1.0
 
 function getShootRandomIntervalTime()
 return math.ceil(math.random()*baseShootRandomIntervalTime)
@@ -73,31 +72,30 @@ function OnEvent(event, arg)
 
 
                	repeat
-					
 				
+				
+				if(index<countMax) then
+					index = index + 1
 
-					if(0<=index and index<=28)then
-						a = a+0.6
-						index=math.ceil(index*a)
-						OutputLogMessage("index = %d",index)
-					elseif(28<index and index<38)then
-						index=index+1
-					else
-						index=index+1
-					end
+				end
+
+					
 
 				x = angleMax/countMax*baseAngle*index
 				y1 = math.sin(x)
 				y0 = math.floor(y1*baseNumber)
 				--OutputLogMessage("y1 = %f  y0 = %f\n",y1,y0)
+
+
                	PressAndReleaseKey(realShootKey)
                	realShootIntervalTime = baseShootIntervalTime+getShootRandomIntervalTime()
                	Sleep(realShootIntervalTime)
+
+
 				MoveMouseRelative(0, y0)
 				
                	until not IsMouseButtonPressed(shootKey)
-				index = 1
-				a = 1.0
+				index = indexInit
 			else
 				PressKey(realShootKey)
          			repeat
