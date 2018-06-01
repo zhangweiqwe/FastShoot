@@ -25,7 +25,7 @@ local state = "finish" -- finishKey fastShootKey fastShootAndControlKey
 local index = 0
 local baseNumber = 11
 local angleMax = 90
-local countMax = 20
+local countMax = 48
 local baseAngle = math.pi/180
 
 
@@ -73,14 +73,14 @@ function OnEvent(event, arg)
 				
 				
 				if(index<countMax) then
-					index = index + 1
-					OutputLogMessage("index = %d ",index)
+					index = index + 8
+					--OutputLogMessage("index = %d ",index)
 				end
 					
 
 				x = angleMax/countMax*baseAngle*index
-				y1 = math.sin(x)
-				y0 = math.floor(y1*baseNumber)
+				y1 = math.cos(x)
+				y0 = baseNumber - math.floor(y1*baseNumber)
 				--OutputLogMessage("y1 = %f  y0 = %f\n",y1,y0)
 
 
