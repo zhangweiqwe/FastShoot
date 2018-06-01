@@ -19,6 +19,9 @@ local shootKey = 1
 local fastShootKey = 5
 local fastShootAndControlKey = 4
 local finishKey = 6
+
+--改变基准射击随机间隔键
+local changeShootRandomIntervalTimeKey = 8
 --标志
 local state = "finish" -- finishKey fastShootKey fastShootAndControlKey
 
@@ -127,6 +130,9 @@ function OnEvent(event, arg)
 	     	state = "fastShootKey"
 		elseif(arg == fastShootAndControlKey)then
 			state = "fastShootAndControlKey"
+		elseif(arg == changeShootRandomIntervalTimeKey)then
+			changeShootRandomIntervalTime()
+			OutputLogMessage("baseShootRandomIntervalTime = %d", baseShootRandomIntervalTime)
 		end	
 
 	elseif(event == "MOUSE_BUTTON_RELEASED") then
