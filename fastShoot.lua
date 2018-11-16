@@ -121,7 +121,7 @@ function OnEvent(event, arg)
 				PressKey(realShootKey)
          			repeat
          	     	Sleep(10)
-         			until not IsMouseButtonPressed(realShootKey)
+         			until not IsMouseButtonPressed(shootKey)
 				ReleaseKey(realShootKey)
           	end
 		elseif(arg == finishKey) then
