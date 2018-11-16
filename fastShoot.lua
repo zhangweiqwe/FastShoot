@@ -5,9 +5,9 @@
 
 
 --基准射击间隔
-local baseShootIntervalTime = 30
+local baseShootIntervalTime = 22
 --基准射击随机间隔表
-local baseShootRandomIntervalTimes = {2,3,-3,-4}
+local baseShootRandomIntervalTimes = {1,1,1,1}
 --基准射击随机间隔
 local baseShootRandomIntervalTime = baseShootRandomIntervalTimes[table.maxn(baseShootRandomIntervalTimes)]
 
@@ -120,7 +120,7 @@ function OnEvent(event, arg)
 			else
 				PressKey(realShootKey)
          			repeat
-         	     	Sleep(30)
+         	     	Sleep(10)
          			until not IsMouseButtonPressed(realShootKey)
 				ReleaseKey(realShootKey)
           	end
