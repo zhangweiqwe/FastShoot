@@ -1,9 +1,13 @@
 
 local shootKey = 1
 local fastShootKey = 5
+local fastShootAndControlKey = 4
 
 
 
+
+local currentAngle
+local maxAngle = 90
 
 function OnEvent(event, arg)
 	OutputLogMessage("event = %s, arg = %s\n", event, arg)
@@ -16,13 +20,24 @@ function OnEvent(event, arg)
      	
      	if( arg == fastShootKey ) then
                	repeat
-               	PressAndReleaseMouseButton(1)
+               	PressAndReleaseMouseButton(shootKey)
                	Sleep(22)
 	         		OutputLogMessage("shoot\n")
                	until not IsMouseButtonPressed(fastShootKey)
-	
-
-			end
+		elseif(arg == fastShootAndControlKey)then
+				currentAngle = maxAngle
+				repeat
+				currentAngle = currentAngle-3
+				if(currentAngle<10) then
+					currentAngle = 10
+				end
+				x = math.cos(2*math.pi/360*currentAngle)*11
+               	PressAndReleaseMouseButton(shootKey)
+				MoveMouseRelative(0, x)
+               	Sleep(22)
+	         		OutputLogMessage("acurrentAngled=%d x=%f\n",currentAngle,x)
+               	until not IsMouseButtonPressed(fastShootAndControlKey)
 		end
+	end
 
 end
