@@ -10,8 +10,8 @@ function OnEvent(event, arg)
      if (event == "PROFILE_ACTIVATED") then
      	EnablePrimaryMouseButtonEvents(true)
      elseif event == "PROFILE_DEACTIVATED" then
-     	--ReleaseKey(shootKey) 
-		--ReleaseMouseButton(fastShootKey)
+     	ReleaseMouseButton(shootKey) 
+		ReleaseMouseButton(fastShootKey)
      elseif(event == "MOUSE_BUTTON_PRESSED") then
      	
      	if( arg == fastShootKey ) then
